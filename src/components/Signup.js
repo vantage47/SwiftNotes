@@ -19,7 +19,8 @@ const Signup = (props) => {
         if (json.success) { //We have set success default value as false in auth.js create user section and will update its value to true if auth token is successfully generated.. 
             //Save the auth-token & redirect
             props.showAlert("Account created successfully", "success")
-            localStorage.setItem('token', json.authtoken);
+            localStorage.setItem('token', json.authToken);
+            localStorage.setItem('email', credentials.email)
             navigate("/");  //harry has used useHistory hook but in 6.8.0 react-router-dom useNavigate is available... 
         }
         else {
@@ -31,6 +32,8 @@ const Signup = (props) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
     return (
+        <>
+        <h2>Enter your details to Signup</h2>
         <form onSubmit={handleSubmit}>
             <div className="form-group my-3">
                 <label htmlFor="name">Enter your Name</label>
@@ -54,6 +57,7 @@ const Signup = (props) => {
             <p className='fw-bold text-success'>{credentials.password.toString() === credentials.cpassword.toString() ? "Confirm Password and Password Match":""}</p>
             <button type="submit" disabled={credentials.password !== credentials.cpassword || credentials.password.length<5} className="btn btn-primary" >Submit</button>
         </form>
+        </>
     )
 }
 

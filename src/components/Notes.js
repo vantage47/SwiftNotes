@@ -3,19 +3,29 @@ import React, { useContext, useEffect, useRef, useState } from 'react' //useCont
 import noteContext from "../context/notes/NoteContext"
 import AddNotes from './AddNotes'; //This is component which will provide a input to make a new note..
 import NoteItem from "./NoteItem" //This component will make use of fetch Notes api to display all notes of a user..
+import { useNavigate } from "react-router-dom";
 
 const Notes = (props) => {
+
+
 
     //Context-API 
     const context = useContext(noteContext); //Made using useContext Snippet to make use of props defined in context API..
     // eslint-disable-next-line   ---- This is used to disable warning of particular line which you will work later.. Just add it before the desired line to disable its warning....
     const { notes, getNotes, editNotes } = context;
+    let navigate = useNavigate();
 
     //Running getNotes whenever page opens... 
-    useEffect(() => { //Use effect is used by us to display all the fetched notes at start because we are not adding a button to display all notes it is done when the page opens..  
-        getNotes();
-        // eslint-disable-next-line react-hooks/exhaustive-deps   
-        }, [])
+    //Use effect is used by us to display all the fetched notes at start because we are not adding a button to display all notes it is done when the page opens.. 
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            getNotes();
+        }
+        else {
+            navigate('/login')
+        }
+        // eslint-disable-next-line 
+    }, [])
 
     //Setting up MODAL for editing note and using useRef to click button which opens MODAL when we click "pen" button in Noteitems.js...
     const ref = useRef(null) //useRef Snippet.. Useref is used to make a click at one button when someother btn is actually clicked.. 

@@ -1,9 +1,18 @@
 // Boiler plate - rafce
 import React, { useEffect } from 'react'
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     let location = useLocation();
+
+    let navigate = useNavigate();
+    const handleLogout=()=>{
+        localStorage.removeItem('token')
+        localStorage.removeItem('email')
+        navigate('/login')
+    }
+
     useEffect(() => { //This is useLocation hook provided by react-router-dom so that we can know which tab we are in home or about to highlight it 
         // console.log(location)
     }, [location]);
@@ -24,7 +33,7 @@ const Navbar = () => {
                         {!localStorage.getItem('token')? <form className="d-flex" role="search">
                             <button className="btn btn-outline-light mx-2"><Link className={`nav-link ${location.pathname === '/login' ? "active" : ""}`} to='/login'>Login</Link></button>
                             <button className="btn btn-outline-light mx-2"><Link className={`nav-link ${location.pathname === '/signup' ? "active" : ""}`} to='/signup'>SignUp</Link></button>
-                        </form>:<button className="btn btn-outline-light mx-2"><Link className={`nav-link ${location.pathname === '/login' ? "active" : ""}`} to='/login'>Logout</Link></button> } 
+                        </form>:<><h5 className='text-light'>Welcome, {localStorage.getItem('email')}!</h5><button className="btn btn-outline-light mx-2" onClick={handleLogout}>Logout</button></>} 
                         {/* When Logged in i.e. localstorage doesn't has the 'token then show Login and Signup else show Logout  */}
                     </div>
                 </div>
