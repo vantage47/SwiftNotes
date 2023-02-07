@@ -1,0 +1,1 @@
+If there are many components so to change state we have to do prop-drilling i.e. we have to pass props in each component and if they are in hierarchical order then it will be mess to pass props through each level.. So we make context API which will solve this problem and we can make standard states in context API use Usecontext to use those states.. 
