@@ -4,7 +4,7 @@ const NoteState = (props) => {
   const host = "http://localhost:5500"
   const notesInitial = []
 
-  const [notes, setNotes] = useState(notesInitial)
+  const [notes, setNotes] = useState(notesInitial);
 
   //Get all Note
   const getNotes = async () => {
@@ -58,7 +58,7 @@ const NoteState = (props) => {
   }
 
   //Edit a Note
-  const editNotes = async (id, title, description, tag) => {
+  const editNotes = async(id, title, description, tag) => {
     //API CALL FOR FETCHING NOTES - This we can get on google directly like search "Fetch with headers"
     // eslint-disable-next-line
     const response = await fetch(`${host}/api/notes/updatenotes/${id}`, {

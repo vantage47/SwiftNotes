@@ -31,7 +31,7 @@ router.post('/createuser', [            //We will set validation inside this arr
         }
         //Creating a new user
         const salt = await bcrypt.genSalt(10); //It will generate salt that is used to solve limitation of hashing - "Rainbow Table".. Those function which returns promise should be written after 'await' and the arrow function should be async.. WE use await so to tell the compiler to wait there till bcrypt generates salt and then move to next line.. 
-        secPass = await bcrypt.hash(req.body.password, salt) //We combine our password with a salt and then we hash it so it could solve Rainbow Table problem
+        var secPass = await bcrypt.hash(req.body.password, salt) //We combine our password with a salt and then we hash it so it could solve Rainbow Table problem
         user = await User.create({
             name: req.body.name,
             email: req.body.email,
@@ -46,7 +46,7 @@ router.post('/createuser', [            //We will set validation inside this arr
         success = true;
         res.json({ success, authToken })
     }
-    catch (error) {
+    catch (error) { 
         console.log(error.message);
         res.status(500).send("Internal Server Error")
     }
@@ -70,12 +70,11 @@ router.post('/login', [            //We will set validation inside this array li
         //Checking if email entered exists or not
         let user = await User.findOne({ email })
         if (!user) {
-            return res.status(400).json({ success, error: "Credentials do not Match" })
+            return res.status(400).json({ success, error: "Users do not exist" })
         }
         //Comparing passwords
         const passwordCompare = await bcrypt.compare(password, user.password) //Async Function (Returns Promise so we will wait till it get resolved)
         if (!passwordCompare) {
-            
             return res.status(400).json({ success, error: "Credentials do not Match" })
         }
         const data = {
@@ -96,7 +95,7 @@ router.post('/login', [            //We will set validation inside this array li
 //ROUTE3: Get loggedin user details using: POST "/api/auth/getuser", Login required..
 router.post('/getuser', fetchuser, async (req,res)=>{
     try {
-        userid = req.user.id
+        let userid = req.user.id
         const user = await User.findById(userid).select("-password") //Get user id from Auth Token and getting all details from that user id from DB except password...
         res.send(user)
     } catch (error) {

@@ -31,6 +31,12 @@ const Signup = (props) => {
     const onChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
+    // if (credentials.cpassword.length===0) {
+    //     var disp = "none"
+    // }
+    // else{
+    //     disp = ""
+    // }
     return (
         <>
         <h2>Enter your details to Signup</h2>
@@ -54,7 +60,7 @@ const Signup = (props) => {
                 <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onChange} placeholder="Password" minLength={5} required />
             </div>
             <p className='fw-bold text-danger'>{credentials.password.toString() !== credentials.cpassword.toString() ? "Confirm Password and Password doesn't Match":""}</p>
-            <p className='fw-bold text-success'>{credentials.password.toString() === credentials.cpassword.toString() ? "Confirm Password and Password Match":""}</p>
+            <p className='fw-bold text-success' style={{display: credentials.cpassword.length===0? "none":""}}>{credentials.password.toString() === credentials.cpassword.toString() ? "Confirm Password and Password Match":""}</p>
             <button type="submit" disabled={credentials.password !== credentials.cpassword || credentials.password.length<5} className="btn btn-primary" >Submit</button>
         </form>
         </>
